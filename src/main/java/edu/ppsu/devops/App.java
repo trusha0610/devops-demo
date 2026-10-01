@@ -34,7 +34,7 @@ public class App {
                 HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/", ex -> reply(ex, 200,
-                "Hello from DevOps Demo - Trusha v" + VERSION +
+                "Hello from DevOps Demo - Main v" + VERSION +
                 " (host: " + HOST + ")\n"));
 
         server.createContext("/health",
