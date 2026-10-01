@@ -41,6 +41,7 @@ public class App {
                 ex -> reply(ex, 200, "OK\n"));
 
         server.createContext("/add", App::add);
+        server.createContext("/subtract", App::subtract);
         server.createContext("/metrics", App::metrics);
 
         server.start();
@@ -69,7 +70,25 @@ public class App {
                     "Usage: /add?a=2&b=3\n");
         }
     }
+    static void subtract(HttpExchange ex) throws IOException {
+    try {
+        Map<String, Integer> q = new ConcurrentHashMap<>();
 
+        String query = ex.getRequestURI().getQuery();
+
+        for (String p : query.split("&")) {
+            String[] kv = p.split("=");
+            q.put(kv[0], Integer.parseInt(kv[1]));
+        }
+
+        reply(ex, 200,
+                CALC.subtract(q.get("a"), q.get("b")) + "\n");
+
+    } catch (Exception e) {
+        reply(ex, 400,
+                "Usage: /subtract?a=5&b=2\n");
+    }
+}
     static void metrics(HttpExchange ex) throws IOException {
 
         StringBuilder sb = new StringBuilder();
